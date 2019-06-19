@@ -1,4 +1,5 @@
 node_modules/*
+nodeEnv/*
 dist/*
 flow-typed/*
 coverage/*

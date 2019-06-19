@@ -1,6 +1,7 @@
 coverage/
 node_modules/
 dist/hot
+nodeEnv/
 # dist/
 
 # temporary jenkins files
