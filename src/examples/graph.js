@@ -511,6 +511,20 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
               <option value={'VerticalTree'}>Vertical Tree</option>
             </select>
           </div>
+          <div className="lock">
+            <span>Lock:</span>
+            <select
+              name="lock"
+              onChange={event => {
+                this.setState({
+                  lock: event.target.value === 'true' ? true : false,
+                });
+              }}
+            >
+              <option value={false}>false</option>
+              <option value={true}>true</option>
+            </select>
+          </div>
           <div className="pan-list">
             <span>Pan To:</span>
             <select onChange={this.onSelectPanNode}>
@@ -525,7 +539,7 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
         <GraphView
           ref={el => (this.GraphView = el)}
           nodeKey={NODE_KEY}
-          lock={true}
+          lock={this.state.lock}
           nodes={nodes}
           edges={edges}
           selected={selected}

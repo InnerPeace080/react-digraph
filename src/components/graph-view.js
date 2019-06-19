@@ -242,7 +242,8 @@ class GraphView extends React.Component<IGraphViewProps, IGraphViewState> {
       !nextState.componentUpToDate ||
       nextProps.selected !== this.props.selected ||
       nextProps.readOnly !== this.props.readOnly ||
-      nextProps.layoutEngineType !== this.props.layoutEngineType
+      nextProps.layoutEngineType !== this.props.layoutEngineType ||
+      nextProps.lock !== this.props.lock
     ) {
       return true;
     }
@@ -274,6 +275,7 @@ class GraphView extends React.Component<IGraphViewProps, IGraphViewState> {
     const forceReRender =
       this.props.nodes !== prevProps.nodes ||
       this.props.edges !== prevProps.edges ||
+      this.props.lock !== prevProps.lock ||
       prevProps.layoutEngineType !== this.props.layoutEngineType;
 
     // Note: the order is intentional
