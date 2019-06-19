@@ -525,6 +525,7 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
         <GraphView
           ref={el => (this.GraphView = el)}
           nodeKey={NODE_KEY}
+          lock={true}
           nodes={nodes}
           edges={edges}
           selected={selected}

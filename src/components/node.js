@@ -45,6 +45,7 @@ type INodeProps = {
   opacity?: number,
   nodeKey: string,
   nodeSize?: number,
+  lock?: boolean,
   onNodeMouseEnter: (event: any, data: any, hovered: boolean) => void,
   onNodeMouseLeave: (event: any, data: any) => void,
   onNodeMove: (point: IPoint, id: string, shiftKey: boolean) => void,
@@ -147,9 +148,9 @@ class Node extends React.Component<INodeProps, INodeState> {
   handleMouseMove = () => {
     const mouseButtonDown = d3.event.sourceEvent.buttons === 1;
     const shiftKey = d3.event.sourceEvent.shiftKey;
-    const { nodeSize, layoutEngine, nodeKey, viewWrapperElem } = this.props;
+    const { nodeSize, layoutEngine, nodeKey, viewWrapperElem, lock } = this.props;
 
-    if (!mouseButtonDown) {
+    if (!mouseButtonDown || lock) {
       return;
     }
 
