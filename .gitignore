@@ -3,6 +3,15 @@ node_modules/
 dist/hot
 nodeEnv/
 # dist/
+dist/test/
+dist/examples/
+dist/bwdl-*
+dist/css.*
+dist/app.*
+dist/example*
+dist/graph*
+dist/index*
+dist/sidebar*
 
 # temporary jenkins files
 test/test.js.tap
