@@ -1205,7 +1205,7 @@ class GraphView extends React.Component<IGraphViewProps, IGraphViewState> {
       renderNodeText,
       nodeKey,
       maxTitleChars,
-      lock
+      lock,
     } = this.props;
 
     return (

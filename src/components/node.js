@@ -148,7 +148,13 @@ class Node extends React.Component<INodeProps, INodeState> {
   handleMouseMove = () => {
     const mouseButtonDown = d3.event.sourceEvent.buttons === 1;
     const shiftKey = d3.event.sourceEvent.shiftKey;
-    const { nodeSize, layoutEngine, nodeKey, viewWrapperElem, lock } = this.props;
+    const {
+      nodeSize,
+      layoutEngine,
+      nodeKey,
+      viewWrapperElem,
+      lock,
+    } = this.props;
 
     if (!mouseButtonDown || lock) {
       return;
