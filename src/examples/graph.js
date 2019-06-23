@@ -120,7 +120,7 @@ const sample: IGraph = {
     },
     {
       id: 'a2',
-      subtype: SPECIAL_CHILD_SUBTYPE,
+      backtypes: [SPECIAL_CHILD_SUBTYPE],
       title: 'Node B (2)',
       type: EMPTY_TYPE,
       x: 593.9393920898438,

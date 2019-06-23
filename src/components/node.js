@@ -34,6 +34,8 @@ export type INode = {
   y?: number | null,
   type?: string,
   subtype?: string | null,
+  backtypes?: string[],
+  fronttypes?: string[],
   [key: string]: any,
 };
 
@@ -289,6 +291,32 @@ class Node extends React.Component<INodeProps, INodeState> {
 
     return null;
   }
+  static getNodeBacktypeXlinkHref(data: INode, nodeSubtypes?: any) {
+    if (data.backtypes && nodeSubtypes) {
+      return data.backtypes.map(c => {
+        if (c && nodeSubtypes[c]) {
+          return nodeSubtypes[c].shapeId;
+        } else if (nodeSubtypes.emptyNode) {
+          return nodeSubtypes.emptyNode.shapeId;
+        }
+      });
+    }
+
+    return null;
+  }
+  static getNodeFronttypeXlinkHref(data: INode, nodeSubtypes?: any) {
+    if (data.fronttypes && nodeSubtypes) {
+      return data.fronttypes.map(c => {
+        if (c && nodeSubtypes[c]) {
+          return nodeSubtypes[c].shapeId;
+        } else if (nodeSubtypes.emptyNode) {
+          return nodeSubtypes.emptyNode.shapeId;
+        }
+      });
+    }
+
+    return null;
+  }
 
   renderShape() {
     const {
@@ -312,6 +340,10 @@ class Node extends React.Component<INodeProps, INodeState> {
     const nodeTypeXlinkHref = Node.getNodeTypeXlinkHref(data, nodeTypes) || '';
     const nodeSubtypeXlinkHref =
       Node.getNodeSubtypeXlinkHref(data, nodeSubtypes) || '';
+    const nodeBacktypeXlinkHref =
+      Node.getNodeBacktypeXlinkHref(data, nodeSubtypes) || '';
+    const nodeFronttypeXlinkHref =
+      Node.getNodeFronttypeXlinkHref(data, nodeSubtypes) || '';
 
     // get width and height defined on def element
     const defSvgNodeElement: any = nodeTypeXlinkHref
@@ -333,6 +365,19 @@ class Node extends React.Component<INodeProps, INodeState> {
     } else {
       return (
         <g className={nodeShapeContainerClassName} {...props}>
+          {nodeBacktypeXlinkHref &&
+            nodeBacktypeXlinkHref.map((c, i) => (
+              <use
+                key={i}
+                data-index={index}
+                className={nodeSubtypeClassName}
+                x={-props.width / 2}
+                y={-props.height / 2}
+                width={props.width}
+                height={props.height}
+                xlinkHref={c}
+              />
+            ))}
           {!!data.subtype && (
             <use
               data-index={index}
@@ -353,6 +398,19 @@ class Node extends React.Component<INodeProps, INodeState> {
             height={props.height}
             xlinkHref={nodeTypeXlinkHref}
           />
+          {nodeFronttypeXlinkHref &&
+            nodeFronttypeXlinkHref.map((c, i) => (
+              <use
+                key={i}
+                data-index={index}
+                className={nodeSubtypeClassName}
+                x={-props.width / 2}
+                y={-props.height / 2}
+                width={props.width}
+                height={props.height}
+                xlinkHref={c}
+              />
+            ))}
         </g>
       );
     }
