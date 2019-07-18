@@ -151,6 +151,7 @@ const sample: IGraph = {
       id: 'a6',
       title: 'Node E (6)',
       type: SKINNY_TYPE,
+      isAnimated:true,
       x: 300,
       y: 600,
     },
@@ -294,6 +295,22 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
     // using a new array like this creates a new memory reference
     // this will force a re-render
     graph.nodes = [...this.state.graph.nodes];
+    this.setState({
+      graph,
+    });
+  };
+
+  moveNode = () => {
+    const graph = this.state.graph;
+
+    graph.nodes = this.state.graph.nodes.map((c,i)=>{
+      return {
+        ...c,
+        x:(c.x+i*10),
+        y:(c.y+i*10)
+      }
+    })
+
     this.setState({
       graph,
     });
@@ -535,6 +552,7 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
               ))}
             </select>
           </div>
+          <button onClick={this.moveNode}>Move Node</button>
         </div>
         <GraphView
           ref={el => (this.GraphView = el)}

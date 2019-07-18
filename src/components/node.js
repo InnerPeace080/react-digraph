@@ -111,8 +111,8 @@ class Node extends React.Component<INodeProps, INodeState> {
   ) {
     return {
       selected: nextProps.isSelected,
-      x: nextProps.data.x,
-      y: nextProps.data.y,
+      // x: nextProps.data.x,
+      // y: nextProps.data.y,
     };
   }
 
@@ -462,6 +462,39 @@ class Node extends React.Component<INodeProps, INodeState> {
         {this.renderText()}
       </g>
     );
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      this.props.data.isAnimated &&
+      (prevProps.data.x != this.props.data.x ||
+        prevProps.data.y != this.props.data.y)
+    ) {
+      d3.select(this.nodeRef.current)
+        .transition()
+        .duration(1000)
+        .attr(
+          'transform',
+          `translate(${this.props.data.x},
+            ${this.props.data.y})`
+        )
+        .end()
+        .then(() => {
+          this.setState({
+            x: this.props.data.x,
+            y: this.props.data.y,
+          });
+        });
+    } else if (
+      !this.props.data.isAnimated &&
+      (prevProps.data.x != this.props.data.x ||
+        prevProps.data.y != this.props.data.y)
+    ) {
+      this.setState({
+        x: this.props.data.x,
+        y: this.props.data.y,
+      });
+    }
   }
 }
 
