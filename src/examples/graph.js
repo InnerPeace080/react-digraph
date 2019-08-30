@@ -151,7 +151,7 @@ const sample: IGraph = {
       id: 'a6',
       title: 'Node E (6)',
       type: SKINNY_TYPE,
-      isAnimated:true,
+      isAnimated: true,
       x: 300,
       y: 600,
     },
@@ -303,13 +303,13 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
   moveNode = () => {
     const graph = this.state.graph;
 
-    graph.nodes = this.state.graph.nodes.map((c,i)=>{
+    graph.nodes = this.state.graph.nodes.map((c, i) => {
       return {
         ...c,
-        x:(c.x+i*10),
-        y:(c.y+i*10)
-      }
-    })
+        x: c.x + i * 10,
+        y: c.y + i * 10,
+      };
+    });
 
     this.setState({
       graph,
