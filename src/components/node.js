@@ -137,8 +137,8 @@ class Node extends React.Component<INodeProps, INodeState> {
       hovered: false,
       mouseDown: false,
       selected: false,
-      x: props.data.x || 0,
-      y: props.data.y || 0,
+      x: (props.data && props.data.x) || 0,
+      y: (props.data && props.data.y) || 0,
       pointerOffset: null,
     };
 
@@ -482,6 +482,7 @@ class Node extends React.Component<INodeProps, INodeState> {
 
   componentDidUpdate(prevProps, prevState) {
     if (
+      this.props.data &&
       this.props.data.isAnimated &&
       !this.state.drawingEdge &&
       !this.state.mouseDown &&
@@ -505,7 +506,7 @@ class Node extends React.Component<INodeProps, INodeState> {
           });
         })
         .catch(err => {});
-    } else {
+    } else if (this.props.data) {
       this.prevX = this.props.data.x;
       this.prevY = this.props.data.y;
       d3.select(this.nodeRef.current).transition();
