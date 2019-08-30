@@ -109,11 +109,21 @@ class Node extends React.Component<INodeProps, INodeState> {
     nextProps: INodeProps,
     prevState: INodeState
   ) {
-    return {
-      selected: nextProps.isSelected,
-      // x: nextProps.data.x,
-      // y: nextProps.data.y,
-    };
+    if (
+      !nextProps.data.isAnimated ||
+      prevState.drawingEdge ||
+      prevState.mouseDown
+    ) {
+      return {
+        selected: nextProps.isSelected,
+        x: nextProps.data.x,
+        y: nextProps.data.y,
+      };
+    } else {
+      return {
+        selected: nextProps.isSelected,
+      };
+    }
   }
 
   nodeRef: any;
@@ -132,6 +142,8 @@ class Node extends React.Component<INodeProps, INodeState> {
       pointerOffset: null,
     };
 
+    this.prevX = undefined;
+    this.prevY = undefined;
     this.nodeRef = React.createRef();
   }
 
@@ -217,6 +229,10 @@ class Node extends React.Component<INodeProps, INodeState> {
     this.nodeRef.current.parentElement.parentElement.appendChild(
       this.nodeRef.current.parentElement
     );
+
+    this.setState({
+      mouseDown: true,
+    });
   };
 
   handleDragEnd = () => {
@@ -467,9 +483,12 @@ class Node extends React.Component<INodeProps, INodeState> {
   componentDidUpdate(prevProps, prevState) {
     if (
       this.props.data.isAnimated &&
-      (prevProps.data.x != this.props.data.x ||
-        prevProps.data.y != this.props.data.y)
+      !this.state.drawingEdge &&
+      !this.state.mouseDown &&
+      (this.props.data.x != this.prevX || this.props.data.y != this.prevY)
     ) {
+      this.prevX = this.props.data.x;
+      this.prevY = this.props.data.y;
       d3.select(this.nodeRef.current)
         .transition()
         .duration(1000)
@@ -484,16 +503,12 @@ class Node extends React.Component<INodeProps, INodeState> {
             x: this.props.data.x,
             y: this.props.data.y,
           });
-        });
-    } else if (
-      !this.props.data.isAnimated &&
-      (prevProps.data.x != this.props.data.x ||
-        prevProps.data.y != this.props.data.y)
-    ) {
-      this.setState({
-        x: this.props.data.x,
-        y: this.props.data.y,
-      });
+        })
+        .catch(err => {});
+    } else {
+      this.prevX = this.props.data.x;
+      this.prevY = this.props.data.y;
+      d3.select(this.nodeRef.current).transition();
     }
   }
 }
